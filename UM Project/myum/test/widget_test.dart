@@ -1,30 +1,66 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-
-import 'package:myum/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget( MyUm());
+  runApp(const MyUM());
+}
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+class MyUM extends StatelessWidget {
+  const MyUM({super.key});
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: MyUmApp(), // Use your stateful widget here
+    );
+  }
+}
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
-  });
+class MyUmApp extends StatefulWidget {
+  const MyUmApp({super.key});
+
+  @override
+  State<MyUmApp> createState() => _MyUmAppState();
+}
+
+class _MyUmAppState extends State<MyUmApp> {
+  int currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("MyUM"),
+        backgroundColor: Colors.deepOrange,
+      ),
+      body: Center(
+        child: <Widget>[
+          const Text("Dashboard"),
+          Text("Page $currentIndex"),
+          Text("Page $currentIndex"),
+          Text("Page $currentIndex"),
+        ][currentIndex],
+      ),
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (int index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+        destinations: const <Widget>[
+          NavigationDestination(
+            icon: Icon(Icons.dashboard),
+            label: "Dashboard"),
+          NavigationDestination(
+            icon: Icon(Icons.pages), 
+            label: "Page 1"),
+          NavigationDestination(
+            icon: Icon(Icons.pages), 
+            label: "Page 2"),
+          NavigationDestination(
+            icon: Icon(Icons.pages), 
+            label: "Page 3"),
+        ],
+      ),
+    );
+  }
 }
